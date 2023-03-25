@@ -3,6 +3,6 @@ Name: sql12608549
 Username: sql12608549
 Password: RKcnqTm2Dx
 Port number: 3306
-
+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
 hacom84956@huvacliq.com
 123
