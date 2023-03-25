@@ -60,7 +60,7 @@
                         <p class="role">${data.userType}</p>
                         <a href="javascript:void(0)" onclick="viewProfile()" class="btn">View Profile</a>
                         <div class="flex-btn">
-                            <a href="register.html" class="option-btn">Logout</a>
+                            <a href="/" class="option-btn">Logout</a>
                         </div>
                     </div>
 
@@ -86,7 +86,7 @@
                     <a onclick="showScreen('admin')"><i class="fas fa-user-cog"></i><span>Admin</span></a>
                     <a onclick="showScreen('mail')"><i class="fas fa-envelope"></i><span>Send Mail</span></a>
                     <a onclick="showScreen('multiMail')"><i class="	fa fa-envelope-open"></i><span>Send Mail (Multiple)</span></a>
-                    <a href="courses.html"><i class="fas fa-graduation-cap"></i><span>Courses</span></a>
+                    <a onclick="showScreen('mailLogger')"><i class="fa fa-history"></i><span>Mail Logger</span></a>
                     <a href="contact.html"><i class="fas fa-headset"></i><span>Contact us</span></a>
                     <a href="about.html"><i class="fas fa-question"></i><span>About</span></a>
                 </nav>

@@ -52,6 +52,14 @@ public class MainController {
 		return "multiMail";
 	}
 	
+	@GetMapping(value = "/mailLogger")
+	public String mailLogger(@RequestParam(value = "response", required = false) String response, Model model) {
+		System.out.println("Inside mail Logger Method------->>");
+		model.addAttribute("mailList", mainService.getAllAdmin());
+		model.addAttribute("response", response);
+		return "mailLogger";
+	}
+	
 	@GetMapping(value = "/admin")
 	public String admin(@RequestParam(value = "response", required = false) String response, Model model) {
 		System.out.println("Inside admin Method------->>");
