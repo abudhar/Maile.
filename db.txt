@@ -1,0 +1,8 @@
+Server: sql12.freemysqlhosting.net
+Name: sql12608549
+Username: sql12608549
+Password: RKcnqTm2Dx
+Port number: 3306
+
+hacom84956@huvacliq.com
+123
