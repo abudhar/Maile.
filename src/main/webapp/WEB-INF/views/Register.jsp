@@ -10,82 +10,114 @@
 <%@ taglib prefix = "c" uri = "http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Register</title>
-
-  <!-- font awesome cdn link  -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css">
-
-  <!-- custom css file link  -->
-  <link rel="stylesheet" href="css/style.css">
-
-
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>Maile.</title>
+  <!-- plugins:css -->
+  <link rel="stylesheet" href="vendors/feather/feather.css">
+  <link rel="stylesheet" href="vendors/ti-icons/css/themify-icons.css">
+  <link rel="stylesheet" href="vendors/css/vendor.bundle.base.css">
+  <!-- endinject -->
+  <!-- Plugin css for this page -->
+  <!-- End plugin css for this page -->
+  <!-- inject:css -->
+  <link rel="stylesheet" href="css/vertical-layout-light/style.css">
+  <!-- endinject -->
+  <link rel="shortcut icon" href="images/favicon.png" />
 </head>
+
 <body>
-
-<header class="header">
-
-  <section class="flex">
-
-    <a href="${pageContext.request.contextPath}/home" class="logo">Maile.</a>
-
-    <form action="search.html" method="post" class="search-form">
-      <input type="text" name="search_box"  placeholder="Search Course..." maxlength="100">
-      <button type="submit" class="fas fa-search"></button>
-    </form>
-
-    <div class="icons">
-      <div id="menu-btn" class="fas fa-bars"></div>
-      <div id="search-btn" class="fas fa-search"></div>
-      <div id="user-btn" class="fas" style="width: 88px;font-family: 'Nunito', sans-serif;font-size: 18px;"><a href="${pageContext.request.contextPath}/login" ><span class="fas fa-user"></span>  Login</a></div>
-      <div id="toggle-btn" class="fas fa-sun"></div>
-    </div>
-
-  </section>
-
-</header>
-
-<section class="form-container">
-
-
-
-  <form action="${pageContext.request.contextPath}/register" method="post" enctype="multipart/form-data" onsubmit="return validateFormData()">
-
-    <c:if test="${not empty response}">
-      <div class="alert" role="alert" style="font-size: 16px;color: red; text-align: center;">
-        <strong>Oh snap!</strong> ${response}
+  <div class="container-scroller">
+    <div class="container-fluid page-body-wrapper full-page-wrapper">
+      <div class="content-wrapper d-flex align-items-center auth px-0">
+        <div class="row w-100 mx-0">
+          <div class="col-lg-4 mx-auto">
+            <div class="auth-form-light text-left py-5 px-4 px-sm-5">
+              <h1 style="text-decoration: underline; color: #4B49AC">Maile.</h1>
+              <br>
+              <h4>New here?</h4>
+              <h6 class="font-weight-light">Signing up is easy. It only takes a few steps</h6>
+              <c:if test="${not empty response}">
+			      <div class="alert" role="alert" style="font-size: 16px;color: red; text-align: center;">
+			        <strong>Oh snap!</strong> ${response}
+			      </div>
+    		  </c:if>
+              <form class="pt-3 forms-sample" action="${pageContext.request.contextPath}/register" method="post" enctype="multipart/form-data" onsubmit="return validateFormData()">
+                <div class="form-group">
+                  <input type="text" class="form-control form-control-lg" id="name" name="name"  placeholder="Username">
+                </div>
+                <div class="form-group">
+                  <input type="email" class="form-control form-control-lg" name="email" id="email" placeholder="Email">
+                </div>
+                <div class="form-group">
+                  <input type="password" class="form-control form-control-lg" name="password" id="password" placeholder="Password">
+                </div>
+                <div class="form-group">
+                  <input type="password" class="form-control form-control-lg" name="confirmPassword" id="confirmPassword" placeholder="Password">
+                </div>
+                <div class="form-group">
+                  <label>File upload</label>
+                  <input type="file" accept="image/*" id="profileImage" name="profileImage" class="file-upload-default">
+                  <div class="input-group col-xs-12">
+                    <input type="text" class="form-control file-upload-info" disabled placeholder="Upload Image">
+                    <span class="input-group-append">
+                      <button class="file-upload-browse btn btn-primary" type="button">Upload</button>
+                    </span>
+                  </div>
+                </div>
+                <div class="mb-4">
+                  <div class="form-check">
+                    <label class="form-check-label text-muted">
+                      <input type="checkbox" class="form-check-input">
+                      I agree to all Terms & Conditions
+                    </label>
+                  </div>
+                </div>
+                <div class="mt-3">
+                  <button type="submit" class="btn btn-block btn-primary btn-lg font-weight-medium auth-form-btn">SIGN UP</button>
+                </div>
+                <div class="text-center mt-4 font-weight-light">
+                  Already have an account? <a href="/" class="text-primary">Login</a>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
       </div>
-    </c:if>
-
-
-    <h3>Register Now</h3>
-    <p>Your Name <span>*</span></p>
-    <input type="text" name="name" id="name" placeholder="Enter Your Name"  maxlength="50" class="box">
-    <p>Your Email <span>*</span></p>
-    <input type="email" name="email" id="email" placeholder="Enter Your Email"  maxlength="50" class="box">
-    <p>Your Password <span>*</span></p>
-    <input type="password" name="password" id="password" placeholder="Enter Your Password"  maxlength="20" class="box">
-    <p>Confirm Password <span>*</span></p>
-    <input type="password" name="confirmPassword" id="confirmPassword" placeholder="Confirm Password"  maxlength="20" class="box">
-    <p>Select Profile <span>*</span></p>
-    <input type="file" accept="image/*" id="profileImage" name="profileImage"  class="box">
-    <input type="submit" value="register new" name="submit" class="btn">
-  </form>
-
-</section>
-
-<footer class="footer">
-
-  &copy; copyright @ 2022 by <span>Mohammed Abudhar Ghifari</span> | all rights reserved!
-
-</footer>
-
+      <!-- content-wrapper ends -->
+    </div>
+    <!-- page-body-wrapper ends -->
+  </div>
+<!-- container-scroller -->
+<!-- plugins:js -->
+<script src="vendors/js/vendor.bundle.base.js"></script>
+<!-- endinject -->
+<!-- Plugin js for this page -->
+<!-- End plugin js for this page -->
+<!-- inject:js -->
+<script src="js/off-canvas.js"></script>
+<script src="js/hoverable-collapse.js"></script>
+<script src="js/template.js"></script>
+<script src="js/settings.js"></script>
+<script src="js/todolist.js"></script>
+<!-- endinject -->
 <!-- custom js file link  -->
 <script src="js/script.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<!-- endinject -->
+<!-- Plugin js for this page -->
+<script src="vendors/typeahead.js/typeahead.bundle.min.js"></script>
+<script src="vendors/select2/select2.min.js"></script>
+<!-- End plugin js for this page -->
+<!-- endinject -->
+<!-- Custom js for this page-->
+<script src="js/file-upload.js"></script>
+<script src="js/typeahead.js"></script>
+<script src="js/select2.js"></script>
+<!-- End custom js for this page-->
 <script>
   function validateFormData(){
     let name = $('#name').val();

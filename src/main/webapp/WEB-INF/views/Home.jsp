@@ -19,6 +19,20 @@
 
     <!-- custom css file link  -->
     <link rel="stylesheet" href="css/style.css">
+    <!-- plugins:css -->
+	  <link rel="stylesheet" href="vendors/feather/feather.css">
+	  <link rel="stylesheet" href="vendors/ti-icons/css/themify-icons.css">
+	  <link rel="stylesheet" href="vendors/css/vendor.bundle.base.css">
+	  <!-- endinject -->
+	  <!-- Plugin css for this page -->
+	  <link rel="stylesheet" href="vendors/datatables.net-bs4/dataTables.bootstrap4.css">
+	  <link rel="stylesheet" href="vendors/ti-icons/css/themify-icons.css">
+	  <link rel="stylesheet" type="text/css" href="js/select.dataTables.min.css">
+	  <!-- End plugin css for this page -->
+	  <!-- inject:css -->
+	  <link rel="stylesheet" href="css/vertical-layout-light/style.css">
+	  <!-- endinject -->
+	  <link rel="shortcut icon" href="images/favicon.png" />
 
 </head>
 <body>
@@ -28,11 +42,6 @@
     <section class="flex">
 
         <a href="${pageContext.request.contextPath}" class="logo">Maile.</a>
-
-        <form action="search.html" method="post" class="search-form">
-            <input type="text" name="search_box" required placeholder="search courses..." maxlength="100">
-            <button type="submit" class="fas fa-search"></button>
-        </form>
 
         <div class="icons">
             <div id="search-btn" class="fas fa-search"></div>
@@ -231,6 +240,6 @@
 <!-- custom js file link  -->
 <script src="js/script.js"></script>
 
-
+<div class="loader"><!-- Place at bottom of page --></div>
 </body>
 </html>

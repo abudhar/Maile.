@@ -10,44 +10,111 @@
 <%@ taglib prefix = "c" uri = "http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html lang="en">
-<section class="form-container">
-
-
-
-  <form action="${pageContext.request.contextPath}/register" method="post" enctype="multipart/form-data" onsubmit="return validateFormData()" style="width: -webkit-fill-available;">
-
-    <c:if test="${not empty response}">
-      <div class="alert" role="alert" style="font-size: 16px;color: red; text-align: center;">
-        <strong>Oh snap!</strong> ${response}
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>Maile.</title>
+  <!-- plugins:css -->
+  <link rel="stylesheet" href="vendors/feather/feather.css">
+  <link rel="stylesheet" href="vendors/ti-icons/css/themify-icons.css">
+  <link rel="stylesheet" href="vendors/css/vendor.bundle.base.css">
+  <!-- endinject -->
+  <!-- Plugin css for this page -->
+  <link rel="stylesheet" href="vendors/select2/select2.min.css">
+  <link rel="stylesheet" href="vendors/select2-bootstrap-theme/select2-bootstrap.min.css">
+  <!-- End plugin css for this page -->
+  <!-- inject:css -->
+  <link rel="stylesheet" href="css/vertical-layout-light/style.css">
+  <!-- endinject -->
+  <!-- plugins:js -->
+  <script src="vendors/js/vendor.bundle.base.js"></script>
+  <!-- endinject -->
+  <!-- Plugin js for this page -->
+  <script src="vendors/typeahead.js/typeahead.bundle.min.js"></script>
+  <script src="vendors/select2/select2.min.js"></script>
+  <!-- End plugin js for this page -->
+  <!-- inject:js -->
+  <script src="js/off-canvas.js"></script>
+  <script src="js/hoverable-collapse.js"></script>
+  <script src="js/template.js"></script>
+  <script src="js/settings.js"></script>
+  <script src="js/todolist.js"></script>
+  <!-- endinject -->
+  <!-- Custom js for this page-->
+  <script src="js/file-upload.js"></script>
+  <script src="js/typeahead.js"></script>
+  <script src="js/select2.js"></script>
+  <script src="vendors/sweetalert/sweetalert.min.js"></script>
+  <!-- End custom js for this page-->
+  <link rel="shortcut icon" href="images/favicon.png" />
+	<style>
+	.mandat{
+		color: red;
+	}
+	</style>
+</head>
+<body>
+ <div class="col-12 grid-margin stretch-card">
+    <div class="card">
+      <div class="card-body">
+        <h4 class="card-title">Single Email Sender</h4>
+        <p class="card-description">
+          Send it quickly !
+        </p>
+        <form class="forms-sample" method="post" enctype="multipart/form-data" onsubmit="return validateFormData()" >
+          <div class="form-group">
+            <label for="fromMail">From <span class="mandat">*</span></label>
+            <input type="text" class="form-control" name="fromMail" id="fromMail" maxlength="50"  value="admin@gmail.com" disabled="disabled">
+          </div>
+          <div class="form-group">
+            <label for="toMail">To <span class="mandat">*</span></label>
+            <input type="email" class="form-control" name="toMail" id="toMail" placeholder="To whom the mail to be sent"  maxlength="60" >
+          </div>
+          <div class="form-group">
+            <label for="subject">Subject <span class="mandat">*</span></label>
+            <input type="password" class="form-control" name="subject" id="subject" placeholder="subject ..."  maxlength="50" >
+          </div>
+          <div class="form-group">
+            <label for="content">Content <span class="mandat">*</span></label>
+            <textarea class="form-control" id="content" rows="4"></textarea>
+          </div>
+          <div class="form-group">
+            <label>Attachment</label>
+            <input type="file" name="attachments" class="file-upload-default">
+            <div class="input-group col-xs-12">
+              <input type="text" class="form-control file-upload-info" disabled placeholder="Upload Image">
+              <span class="input-group-append">
+                <button class="file-upload-browse btn btn-primary" type="button">Upload</button>
+              </span>
+            </div>
+          </div>
+          <div class="text-center">          
+	          <input type="button" class="btn btn-primary mr-2" value="Send !" onclick="validateFormData()"/>
+	          <input type="button" class="btn btn-light" value="Cancel"/>
+	      </div>
+        </form>
       </div>
-    </c:if>
-
-
-    <h3>Send a Mail</h3>
-    <p>From <span>*</span></p>
-    <input type="text" name="from" id="from" maxlength="50" class="box" value="admin@gmail.com" disabled="disabled">
-    <p>To <span>*</span></p>
-    <input type="email" name="emailTo" id="emailTo" placeholder="To whom the mail to be sent"  maxlength="60" class="box">
-    <p>Subject <span>*</span></p>
-    <input type="text" name="subject" id="subject" placeholder="subject ..."  maxlength="50" class="box">
-    <p>Heading</p>
-    <input type="text" name="heading" id="heading" placeholder="Mail Header"  maxlength="100" class="box">
-    <p>Content <span>*</span></p>
-    <textarea name="content" id="content" placeholder="write some content here ...."  maxlength="5000" class="box"></textarea>
-    <p>Attachment</p>
-    <input type="file" id="attachment" name="attachment"  class="box">
-    <input type="button" value="Send !" name="submit" class="btn">
-  </form>
-
-</section>
-
+    </div>
+  </div>
+          
 
 <!-- custom js file link  -->
 <script src="js/script.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 <script>
+
+  
   function validateFormData(){
-    
+	  swal({
+		    text: 'Any fool can use a computer',
+		    button: {
+		      text: "OK",
+		      value: true,
+		      visible: true,
+		      className: "btn btn-primary"
+		    }
+		  }) 
   }
 </script>
 
