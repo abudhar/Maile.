@@ -15,12 +15,16 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
+import javax.mail.util.ByteArrayDataSource;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.FileSystemResource;
+import org.springframework.core.io.InputStreamResource;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.freemarker.FreeMarkerTemplateUtils;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.mailer.config.ApplicationsConstants;
 import com.mailer.model.EmailBean;
@@ -39,6 +43,7 @@ public class EmailServices {
 
 	@Autowired
 	private Configuration freemarkerConfig;
+	
 
 	public EmailBean sendEmail(EmailBean request, Map<String, Object> model) {
 		EmailBean response = new EmailBean();
@@ -91,6 +96,30 @@ public class EmailServices {
 		mailRepo.save(bean);
 		return bean.getStatus();
 
+	}
+	
+	public String sendEmailwithAttach(EmailBean bean) {
+		bean.setStatus("Failed!");
+		try {
+			MimeMessage mimeMessage = mailSender.createMimeMessage();
+	        MimeMessageHelper mimeMessageHelper=new MimeMessageHelper(mimeMessage,true);
+	        mimeMessageHelper.setFrom(bean.getEmailFrom());
+	        mimeMessageHelper.setTo(bean.getEmailTo());
+	        mimeMessageHelper.setText(bean.getMessage());
+	        mimeMessageHelper.setSubject(bean.getSubject());
+	        for(MultipartFile attachmentFile : bean.getAttachFile()) {
+		        ByteArrayDataSource attachment = new ByteArrayDataSource(attachmentFile.getInputStream(), "application/octet-stream");
+		        mimeMessageHelper.addAttachment(attachmentFile.getOriginalFilename(), attachment);
+	        }
+	        mailSender.send(mimeMessage);
+			bean.setStatus("Success!");
+		} catch (Exception e) {
+			e.printStackTrace();
+			bean.setStatus(e.getMessage());
+		}
+		mailRepo.save(bean);
+		return bean.getStatus();
+		
 	}
 
 	public String sendEmail(EmailBean bean) {

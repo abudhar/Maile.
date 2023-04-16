@@ -20,7 +20,7 @@
   <!-- Required meta tags -->
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <title>Skydash Admin</title>
+  <title>Maile.</title>
   <!-- plugins:css -->
   <link rel="stylesheet" href="vendors/feather/feather.css">
   <link rel="stylesheet" href="vendors/ti-icons/css/themify-icons.css">
@@ -1066,6 +1066,12 @@
               </div>
             </div>
         </div>
+        <div class="content-wrapper">
+        	<div id="dynamicContent" class="row">
+        			
+        	</div>
+        
+        </div>
         <!-- content-wrapper ends -->
         <!-- partial:partials/_footer.html -->
         <footer class="footer">
@@ -1085,6 +1091,7 @@
     <input type="hidden" name="registerId" id="registerId">
   </form>
   <!-- plugins:js -->
+  <script src="vendors/sweetalert/sweetalert.min.js"></script>
   <script src="vendors/js/vendor.bundle.base.js"></script>
   <!-- endinject -->
   <!-- Plugin js for this page -->
@@ -1111,12 +1118,14 @@
       $('#dashboardForm').submit();
   }
   function showScreen(name){
+// 	  window.location.href = ${pageContext.request.contextPath}"/"+name;
  	 $.ajax({
  		 method: "GET",
  		 url: ${pageContext.request.contextPath}"/"+name, 
           success: function(result) {
-         	$("#content").html("");
-      		$("#content").html(result);
+         	$("#dynamicContent").html("");
+      		$("#dynamicContent").html(result);
+      		$("#content").hide();
   		}
  	 });
  }

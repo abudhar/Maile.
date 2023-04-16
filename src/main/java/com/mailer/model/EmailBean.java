@@ -1,5 +1,7 @@
 package com.mailer.model;
 
+import java.util.List;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -11,13 +13,18 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Transient;
 
+import org.springframework.web.multipart.MultipartFile;
+
 import com.fasterxml.jackson.annotation.JsonInclude;
+
+import lombok.Data;
 
 
 
 
 @Entity
 @Table(name = "mailLogger")
+@Data
 public class EmailBean {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -34,80 +41,11 @@ public class EmailBean {
 	@JsonInclude
 	@Transient
 	private String token;
+	@Transient
+	private List<MultipartFile> attachFile;
 	
 	@PrePersist
 	private void oncreate() {
 		time = new java.util.Date();
-	}
-	public Long getSrNo() {
-		return srNo;
-	}
-
-	public void setSrNo(Long srNo) {
-		this.srNo = srNo;
-	}
-
-	public String getSubject() {
-		return subject;
-	}
-
-	public void setSubject(String subject) {
-		this.subject = subject;
-	}
-
-	public String getMessage() {
-		return message;
-	}
-
-	public void setMessage(String message) {
-		this.message = message;
-	}
-
-	public String getEmailFrom() {
-		return emailFrom;
-	}
-
-	public void setEmailFrom(String emailFrom) {
-		this.emailFrom = emailFrom;
-	}
-
-	public String getEmailTo() {
-		return emailTo;
-	}
-
-	public void setEmailTo(String emailTo) {
-		this.emailTo = emailTo;
-	}
-
-	public String getStatus() {
-		return status;
-	}
-
-	public void setStatus(String status) {
-		this.status = status;
-	}
-
-	public String getPath() {
-		return path;
-	}
-
-	public void setPath(String path) {
-		this.path = path;
-	}
-
-	public java.util.Date getTime() {
-		return time;
-	}
-
-	public void setTime(java.util.Date time) {
-		this.time = time;
-	}
-
-	public String getToken() {
-		return token;
-	}
-
-	public void setToken(String token) {
-		this.token = token;
 	}
 }

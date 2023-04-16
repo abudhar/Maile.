@@ -6,30 +6,42 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.mailer.model.EmailBean;
+import com.mailer.model.MailForm;
 import com.mailer.service.EmailServices;
 
 
 
-@RestController
+@Controller
 @CrossOrigin("*")
 public class EmailController {
 
 	@Autowired
 	private EmailServices emailService;
 
-	@RequestMapping(value = "/sendMail", method = RequestMethod.POST)
-	public ResponseEntity<?> sendMail(@RequestBody EmailBean ebean) {
-		String sendEmail = this.emailService.sendEmail(ebean);
-		return ResponseEntity.ok(sendEmail);
-
+//	@PostMapping(value = "/sendMail")
+//	public ResponseEntity<?> sendMail(@RequestBody MailForm bean) {
+//		
+////		String sendEmail = this.emailService.sendEmail(ebean);
+//		return ResponseEntity.ok("");
+//
+//	}
+	
+	@PostMapping("/sendMail")
+	public ResponseEntity<String> handleFileUpload(@ModelAttribute EmailBean formData) {
+	    String sendEmail = this.emailService.sendEmailwithAttach(formData);
+	    return ResponseEntity.ok(sendEmail);
 	}
 
 	@RequestMapping(value = "/sendMailWithAttach", method = RequestMethod.POST)

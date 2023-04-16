@@ -9,7 +9,7 @@ public class ApplicationsConstants {
 	
 	public static final String EMAILIDDUMMY = "admin@ghifari.com";
 	public static final String EMAILID = "bulkmail131@gmail.com";
-	public static final String EMAILPASSWORD = "abudhar.com";
+	public static final String EMAILPASSWORD = "neyaxhnlhtkhehdk";//"Abu202208@";
 	public static final String HOST = "smtp.gmail.com";
 	public static final Integer SMTPPORTNO = 465;
 	public static final String SMTPSSLYN = "true";

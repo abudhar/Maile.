@@ -32,7 +32,7 @@ public class LoginController {
 		System.out.println("Email : " + email + " Password : " + password);
 		String userType = loginService.checkLoginType(email, password);
 		Register register = mainService.chekLogin(email, password);
-		if(register.getBlobData() != null)
+		if(register != null && register.getBlobData() != null)
 			register.setProfileImageUploadPath(new String(Base64.encodeBase64(register.getBlobData()), "UTF-8"));
 		if (userType.equals("ADMIN")) {
 			System.out.println("Inside Admin Login");
