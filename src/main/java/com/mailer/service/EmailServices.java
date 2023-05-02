@@ -31,6 +31,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.mailer.config.ApplicationsConstants;
 import com.mailer.model.EmailBean;
+import com.mailer.model.EmailTracking;
+import com.mailer.repository.EmailTrackingRepository;
 import com.mailer.repository.MailRepository;
 import com.mailer.serviceImpl.MailServiceImpl;
 
@@ -48,6 +50,8 @@ public class EmailServices {
 	@Autowired
 	private Configuration freemarkerConfig;
 	
+    @Autowired
+    private EmailTrackingRepository trackingRepository;
 
 	public EmailBean sendEmail(EmailBean request, Map<String, Object> model) {
 		EmailBean response = new EmailBean();
@@ -105,6 +109,7 @@ public class EmailServices {
 	public String sendEmailwithAttach(EmailBean bean) {
 		bean.setStatus("Failed!");
 		List<String> toMail = new ArrayList<>();
+		EmailTracking tracking = new EmailTracking();
 		try {
 			MimeMessage mimeMessage = mailSender.createMimeMessage();
 	        MimeMessageHelper mimeMessageHelper=new MimeMessageHelper(mimeMessage,true);
@@ -112,8 +117,9 @@ public class EmailServices {
         	for(String toMails: bean.getEmailTo().split(",")) {
         		toMail.add(toMails);
         	}
-	        for(String to: toMail)
+	        for(String to: toMail) {
 				mimeMessageHelper.addTo(to);
+	        }
 	        mimeMessageHelper.setText(bean.getMessage());
 	        mimeMessageHelper.setSubject(bean.getSubject());
 	        for(MultipartFile attachmentFile : bean.getAttachFile()) {
@@ -121,12 +127,15 @@ public class EmailServices {
 		        mimeMessageHelper.addAttachment(attachmentFile.getOriginalFilename(), attachment);
 	        }
 	        mailSender.send(mimeMessage);
-			bean.setStatus("Success!");
+	        tracking.setEmailAddress(bean.getEmailTo());
+			bean.setStatus("SENT");
 		} catch (Exception e) {
 			e.printStackTrace();
 			bean.setStatus(e.getMessage());
 		}
 		mailService.saveMail(bean);
+		tracking.setStatus(bean.getStatus());
+        trackingRepository.save(tracking);
 		return bean.getStatus();
 		
 	}

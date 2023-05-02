@@ -94,10 +94,10 @@
 	                <td><c:out value="${email.subject}"/></td>
 	                <td>
 	                <c:choose>
-				        <c:when test="${email.status == 'Success!'}">
+				        <c:when test="${email.status == 'SENT'}">
 				        	<label class="badge badge-success">Sent</label>
 				        </c:when>
-				        <c:when test="${email.status != 'Success!'}">
+				        <c:when test="${email.status != 'SENT'}">
 				        	<label class="badge badge-danger">Error Occured</label>
 				        	<i class="mdi mdi-alert" ></i>
 				        </c:when>

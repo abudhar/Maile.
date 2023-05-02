@@ -21,6 +21,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.fileprocess.service.FileProcessing;
 import com.mailer.model.EmailBean;
 import com.mailer.service.EmailServices;
+import com.mailer.service.EmailTrackingService;
 
 
 
@@ -31,13 +32,9 @@ public class EmailController {
 	@Autowired
 	private EmailServices emailService;
 
-//	@PostMapping(value = "/sendMail")
-//	public ResponseEntity<?> sendMail(@RequestBody MailForm bean) {
-//		
-////		String sendEmail = this.emailService.sendEmail(ebean);
-//		return ResponseEntity.ok("");
-//
-//	}
+    @Autowired
+    private EmailTrackingService trackingService;
+
 	
 	@PostMapping("/sendMail")
 	public ResponseEntity<String> handleFileUpload(@ModelAttribute EmailBean formData) {
@@ -76,6 +73,9 @@ public class EmailController {
         return ResponseEntity.ok(emails);
     }
     
-
+    @PostMapping("/updateMailTrack")
+    public void updateMailStatus(@RequestParam("UUID") String id) {
+        trackingService.updateStatus(id, "OPENED");
+    }
 
 }
