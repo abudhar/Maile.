@@ -14,5 +14,6 @@ public class ApplicationsConstants {
 	public static final Integer SMTPPORTNO = 465;
 	public static final String SMTPSSLYN = "true";
 	public static final String SMTPAUTHYN = "true";
+	public static final String EMAIL_REGEX = "\\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Z|a-z]{2,}\\b";
 
 }

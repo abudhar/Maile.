@@ -1,13 +1,14 @@
 
 package com.mailer.controller;
 
+import java.io.IOException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -17,8 +18,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.fileprocess.service.FileProcessing;
 import com.mailer.model.EmailBean;
-import com.mailer.model.MailForm;
 import com.mailer.service.EmailServices;
 
 
@@ -66,4 +67,15 @@ public class EmailController {
 		model.put("location", "Chennai, India");
 		return emailService.sendEmail(request, model);
 	}
+	
+    @PostMapping("/get-emails")
+    public ResponseEntity<List<String>> getEmails(@RequestParam("file") MultipartFile file) throws IOException {
+    	List<String> emails = FileProcessing
+    			.createFileProcessor(file)
+    			.extractEmails(file);
+        return ResponseEntity.ok(emails);
+    }
+    
+
+
 }

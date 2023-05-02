@@ -1,6 +1,8 @@
 package com.mailer.controller;
 
 import com.mailer.model.Register;
+import com.mailer.repository.MailRepository;
+import com.mailer.service.MailService;
 import com.mailer.service.MainService;
 
 import java.io.UnsupportedEncodingException;
@@ -22,64 +24,61 @@ public class MainController {
 
 	@Autowired
 	private MainService mainService;
+	@Autowired
+	private MailService mailService;
 
-
-	@GetMapping(value = {"/home", "/"})
+	@GetMapping(value = { "/home", "/" })
 	public String home() {
-		System.out.println("Inside Home Method------->>");
 		return "Login";
 	}
 
 	@GetMapping(value = "/login")
 	public String login(@RequestParam(value = "response", required = false) String response, Model model) {
-		System.out.println("Inside Login Method------->>");
 		model.addAttribute("response", response);
 		return "Login";
 	}
-	
+
 	@GetMapping(value = "/mail")
 	public String mail(@RequestParam(value = "response", required = false) String response, Model model) {
-		System.out.println("Inside mail Method------->>");
 		model.addAttribute("response", response);
 		return "mail";
 	}
-	
-	
+
 	@GetMapping(value = "/multiMail")
 	public String multiMail(@RequestParam(value = "response", required = false) String response, Model model) {
-		System.out.println("Inside mail Method------->>");
 		model.addAttribute("response", response);
 		return "multiMail";
 	}
-	
+
 	@GetMapping(value = "/mailLogger")
 	public String mailLogger(@RequestParam(value = "response", required = false) String response, Model model) {
-		System.out.println("Inside mail Logger Method------->>");
 		model.addAttribute("mailList", mainService.getAllAdmin());
 		model.addAttribute("response", response);
 		return "mailLogger";
 	}
-	
+
 	@GetMapping(value = "/admin")
 	public String admin(@RequestParam(value = "response", required = false) String response, Model model) {
-		System.out.println("Inside admin Method------->>");
 		model.addAttribute("adminList", mainService.getAllAdmin());
 		model.addAttribute("response", response);
 		return "admin";
 	}
 
+	@GetMapping(value = "/emailLog")
+	public String emailLog(@RequestParam(value = "response", required = false) String response, Model model) {
+		model.addAttribute("emailList", mailService.getAll());
+		model.addAttribute("response", response);
+		return "EmailLog";
+	}
+	
 	@GetMapping(value = "/register")
 	public String register(Model model) {
-		System.out.println("Inside Register Method------->>");
 		model.addAttribute("response", null);
 		return "Register";
 	}
 
 	@PostMapping(value = "/register")
 	public String register(Register register, Model model, @RequestParam("profileImage") MultipartFile profileImage) {
-		System.out.println("Inside Register Method------->>");
-		System.out.println("Register Data : " + register);
-		System.out.println("Profile Image : " + profileImage);
 		try {
 			register.setBlobData(profileImage.getBytes());
 			register = mainService.saveRegister(register);
@@ -94,18 +93,15 @@ public class MainController {
 		}
 	}
 
-	@RequestMapping(value = "/dashboard", method = {RequestMethod.GET, RequestMethod.POST})
-	public String dashboard(@RequestParam(value = "registerId", required = false) String registerId, Model model) throws UnsupportedEncodingException {
-		System.out.println("Inside Dashboard Method------->>");
-		System.out.println("Register Id : " + registerId);
+	@RequestMapping(value = "/dashboard", method = { RequestMethod.GET, RequestMethod.POST })
+	public String dashboard(@RequestParam(value = "registerId", required = false) String registerId, Model model)
+			throws UnsupportedEncodingException {
 		Register register = mainService.getRegisterById(Integer.parseInt(registerId));
-		if(register.getBlobData() != null)
-			register.setProfileImageUploadPath(new String(Base64.encodeBase64(register.getBlobData()), "UTF-8"));
-		model.addAttribute("data", register);
-		if (register != null && register.getRegisterId() > 0 && (register.getUserType().equals("ADMIN"))) {
-			model.addAttribute("userType", "ADMIN");
-		} else if (register != null && register.getRegisterId() > 0 && register.getUserType().equals("USER")) {
-			model.addAttribute("userType", "USER");
+		if (register != null && register.getRegisterId() > 0 && register.getUserType() != null) {
+			if (register.getBlobData() != null)
+				register.setProfileImageUploadPath(new String(Base64.encodeBase64(register.getBlobData()), "UTF-8"));
+			model.addAttribute("userType", register.getUserType());
+			model.addAttribute("data", register);
 		} else {
 			return "redirect:/login?response=Something Went Wrong";
 		}

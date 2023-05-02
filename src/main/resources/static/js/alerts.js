@@ -1,9 +1,9 @@
 (function($) {
-  showSwal = function(type) {
+  showSwal = function(type, msg) {
     'use strict';
     if (type === 'basic') {
       swal({
-        text: 'Any fool can use a computer',
+        text: msg,
         button: {
           text: "OK",
           value: true,
@@ -15,7 +15,7 @@
     } else if (type === 'title-and-text') {
       swal({
         title: 'Read the alert!',
-        text: 'Click OK to close this alert',
+        text: msg,
         button: {
           text: "OK",
           value: true,
@@ -27,7 +27,7 @@
     } else if (type === 'success-message') {
       swal({
         title: 'Congratulations!',
-        text: 'You entered the correct answer',
+        text: msg,
         icon: 'success',
         button: {
           text: "Continue",
@@ -40,7 +40,7 @@
     } else if (type === 'auto-close') {
       swal({
         title: 'Auto close alert!',
-        text: 'I will close in 2 seconds.',
+        text: msg,
         timer: 2000,
         button: false
       }).then(
@@ -55,7 +55,7 @@
     } else if (type === 'warning-message-and-cancel') {
       swal({
         title: 'Are you sure?',
-        text: "You won't be able to revert this!",
+        text: msg,
         icon: 'warning',
         showCancelButton: true,
         confirmButtonColor: '#3f51b5',

@@ -1,12 +1,3 @@
-	<style>
-	.mandat{
-		color: red;
-	}
-	.disabled {
-        pointer-events: none;
-    }
-	</style>
-
  <div class="col-12 grid-margin stretch-card">
     <div class="card">
       <div class="card-body">
@@ -19,8 +10,8 @@
             <label for="fromMail">From <span class="mandat">*</span></label>
             <input type="text" class="form-control" name="fromMail" id="fromMail" maxlength="50"  value="admin@gmail.com" disabled="disabled">
           </div>
-          <div class="form-group">
-            <label for="toMail">To <span class="mandat">*</span></label>
+          <label for="toMail">To <span class="mandat">*</span></label>
+          <div class="form-group" id="emails-input">
             <input type="email" class="form-control" name="toMail" id="toMail" placeholder="To whom the mail to be sent"  maxlength="60" >
           </div>
           <div class="form-group">
@@ -52,13 +43,21 @@
   <script src="js/file-upload.js"></script>
   <script src="js/typeahead.js"></script>
   <script src="js/select2.js"></script>
+  <script src="vendors/email/emails-input.js"></script>
+  <script src="vendors/email/utils.js"></script>
   <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>          
 <script> 
+	debugger;
+	const emailsInput = window.lib.EmailsInput(document.querySelector('#emails-input'),{
+	    placeholder: 'To whom ?...',
+	    triggerKeyCodes: [44,13,32],
+	    pasteSplitPattern: ','
+	})
+	
   function validateFormData(){
-	  debugger;	  
 	  var data = new FormData();
 	  data.append('emailFrom', $('#fromMail').val());
-	  data.append('emailTo', $('#toMail').val());
+	  data.append('emailTo', emailsInput.getValue().toString());
 	  data.append('subject', $('#subject').val());
 	  data.append('message', $('#message').val());
 	  var files = document.querySelector('input[type=file]').files;
@@ -78,9 +77,5 @@
  		        console.log('Error uploading file');
  		    }
  		});
-	 	
-	 	
-	 	
-	 	
   }
 </script>

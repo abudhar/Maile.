@@ -3,6 +3,9 @@ package com.mailer.service;
 import java.io.File;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
@@ -29,6 +32,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.mailer.config.ApplicationsConstants;
 import com.mailer.model.EmailBean;
 import com.mailer.repository.MailRepository;
+import com.mailer.serviceImpl.MailServiceImpl;
 
 import freemarker.template.Configuration;
 import freemarker.template.TemplateException;
@@ -36,7 +40,7 @@ import freemarker.template.TemplateException;
 @Service
 public class EmailServices {
 	@Autowired
-	private MailRepository mailRepo;
+	private MailServiceImpl mailService;
 
 	@Autowired
 	private JavaMailSender mailSender;
@@ -93,18 +97,23 @@ public class EmailServices {
 			e.printStackTrace();
 			bean.setStatus(e.getMessage());
 		}
-		mailRepo.save(bean);
+		mailService.saveMail(bean);
 		return bean.getStatus();
 
 	}
 	
 	public String sendEmailwithAttach(EmailBean bean) {
 		bean.setStatus("Failed!");
+		List<String> toMail = new ArrayList<>();
 		try {
 			MimeMessage mimeMessage = mailSender.createMimeMessage();
 	        MimeMessageHelper mimeMessageHelper=new MimeMessageHelper(mimeMessage,true);
-	        mimeMessageHelper.setFrom(bean.getEmailFrom());
-	        mimeMessageHelper.setTo(bean.getEmailTo());
+	        mimeMessageHelper.setFrom(bean.getEmailFrom());   
+        	for(String toMails: bean.getEmailTo().split(",")) {
+        		toMail.add(toMails);
+        	}
+	        for(String to: toMail)
+				mimeMessageHelper.addTo(to);
 	        mimeMessageHelper.setText(bean.getMessage());
 	        mimeMessageHelper.setSubject(bean.getSubject());
 	        for(MultipartFile attachmentFile : bean.getAttachFile()) {
@@ -117,7 +126,7 @@ public class EmailServices {
 			e.printStackTrace();
 			bean.setStatus(e.getMessage());
 		}
-		mailRepo.save(bean);
+		mailService.saveMail(bean);
 		return bean.getStatus();
 		
 	}
@@ -137,7 +146,7 @@ public class EmailServices {
 			e.printStackTrace();
 			bean.setStatus(e.getMessage());
 		}
-		mailRepo.save(bean);
+		mailService.saveMail(bean);
 		return bean.getStatus();
 
 	}

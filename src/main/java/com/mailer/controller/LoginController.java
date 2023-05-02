@@ -28,23 +28,18 @@ public class LoginController {
 
 	@PostMapping(value = "/login")
 	public String login(@RequestParam("email") String email,  @RequestParam("password") String password, Model model) throws UnsupportedEncodingException {
-		System.out.println("Inside Login Method POST------->>");
-		System.out.println("Email : " + email + " Password : " + password);
 		String userType = loginService.checkLoginType(email, password);
 		Register register = mainService.chekLogin(email, password);
 		if(register != null && register.getBlobData() != null)
 			register.setProfileImageUploadPath(new String(Base64.encodeBase64(register.getBlobData()), "UTF-8"));
 		if (userType.equals("ADMIN")) {
-			System.out.println("Inside Admin Login");
 			model.addAttribute("userType", userType);
 			model.addAttribute("data", register);
 			model.addAttribute("adminList", mainService.getAllAdmin());
 		} else if (userType.equals("USER")) {
-			System.out.println("Inside User Login");
 			model.addAttribute("userType", userType);
 			model.addAttribute("data", register);
 		} else  if(userType.equals("USER")) {
-			System.out.println("Inside Admin Login");
 			if(register.getBlobData() != null)
 				register.setProfileImageUploadPath(new String(Base64.encodeBase64(register.getBlobData()), "UTF-8"));
 			model.addAttribute("userType", userType);

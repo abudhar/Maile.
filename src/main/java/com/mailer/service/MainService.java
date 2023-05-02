@@ -11,7 +11,10 @@ import com.mailer.model.Register;
  */
 public interface MainService {
 	Register saveRegister(Register register);
+
 	Register chekLogin(String email, String password);
+
 	Register getRegisterById(int registerId);
+
 	List<Register> getAllAdmin();
 }

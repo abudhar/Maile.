@@ -10,16 +10,20 @@
             <label for="fromMail">From <span class="mandat">*</span></label>
             <input type="text" class="form-control" name="fromMail" id="fromMail" maxlength="50"  value="admin@gmail.com" disabled="disabled">
           </div>
-          <div class="form-group">
+          <div class="form-group" id="fromEmailDiv">
             <label>To<span class="mandat">*</span></label>
             <input type="file" name="toAttachment" id="toAttachment" class="file-upload-default" onchange="readExcel()">
             <div class="input-group col-xs-11">
-              <input type="text" class="form-control file-upload-info" disabled placeholder="Upload Image">
+              <input type="text" class="form-control file-upload-info" disabled placeholder="Upload Excel to Extract Email-Ids">
               <span class="input-group-append">
                 <button class="file-upload-browse btn btn-primary" type="button">Upload</button>
               </span>
             </div>
           </div>
+          <label for="toMail" id="toMailLabel">To <span class="mandat">*</span></label>
+          <div class="form-group" id="email-input">
+         	<input type="email" class="form-control" name="toMail" id="toMail" placeholder="To whom the mail to be sent"  maxlength="60" >
+       	  </div>
           <div class="form-group">
             <label for="subject">Subject <span class="mandat">*</span></label>
             <input type="password" class="form-control" name="subject" id="subject" placeholder="subject ..."  maxlength="50" >
@@ -47,25 +51,45 @@
   <script src="js/file-upload.js"></script>
   <script src="js/typeahead.js"></script>
   <script src="js/select2.js"></script>
+  <script src="vendors/email/emails-input.js"></script>
+  <script src="vendors/email/utils.js"></script>
   <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script> 
 <script>
-
-	function readExcel(){
-		debugger;
-		var formdata = new FormData();
-		var fileInput = document.querySelector('input[type=file]').files;
-		formdata.append("file", fileInput[0], fileInput[0].name);
+	debugger;
+	const emailsInput = window.lib.EmailsInput(document.querySelector('#email-input'),{
+	    placeholder: 'To whom ?...',
+	    triggerKeyCodes: [44,13,32],
+	    pasteSplitPattern: ','
+	})
+	$("#toMailLabel").hide();
+	$("#email-input").hide();
+	function readExcel() {
+	   var data = new FormData();
+	   var files = document.querySelector('input[type=file]').files;
+	   for (var i = 0; i < files.length; i++) {
+		  data.append("file", files[i]);
+	   }
+ 		$.ajax({
+ 		    url: ${pageContext.request.contextPath}"/get-emails",
+ 		    type: 'POST',
+ 		    data: data,
+ 		    processData: false,
+ 		    contentType: false,
+ 		    success: function(data) {
+ 		    	_alert('Fetched Emails Succesfully');
+ 		    	$("#fromEmailDiv").hide();
+ 				const emailArray = data;
+ 				emailArray.forEach(addMail);
+	 		   	$("#toMailLabel").show();
+	 			$("#email-input").show();
+ 		    },
+ 		    error: function(xhr, status, error) {
+ 		    	_error('Error uploading file');
+ 		    }
+ 		});
+	 }
+	
+	function addMail(item){
+		emailsInput.add(item);
 	}
-  function validateFormData(){
-	  swal({
-		    text: 'Any fool can use a computer',
-		    button: {
-		      text: "OK",
-		      value: true,
-		      visible: true,
-		      className: "btn btn-primary"
-		    }
-		  }) 
-  }
-
 </script>
